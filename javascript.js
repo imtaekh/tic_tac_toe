@@ -1,5 +1,6 @@
 var square= document.querySelectorAll(".square");
 var result= document.querySelector(".result");
+var button= document.querySelector(".restartButton");
 
 var player={
   X:{
@@ -26,6 +27,8 @@ function reset(){
     square[i].firstChild.innerHTML="";
     square[i].style.backgroundColor="";
   }
+  button.style.display="none";
+  result.innerHTML="";
 }
 function draw(){
   for(var i=0; i<squareData.length; i++){
@@ -42,14 +45,12 @@ function winCheck(){
     if(squareData[i][0]==squareData[i][1]&&squareData[i][1]==squareData[i][2]||squareData[0][i]==squareData[1][i]&&squareData[1][i]==squareData[2][i]){
       if(squareData[i][i]){
         winner = squareData[i][i];
-        console.log("win");
       }
     }
   }
   if(squareData[0][0]==squareData[1][1]&&squareData[1][1]==squareData[2][2]||squareData[0][2]==squareData[1][1]&&squareData[1][1]==squareData[2][0]){
     if(squareData[1][1]){
      winner = squareData[1][1];
-     console.log("win");
    }
   }
 }
@@ -59,20 +60,20 @@ for(var i=0; i<square.length; i++){
     var i =Math.floor(this.num/3);
     var j =this.num%3;
     if(!squareData[i][j]&&!winner){
-      console.log(i+""+j);
+
       squareData[i][j]=player[whosTurn.toString()].string;
       this.style.backgroundColor=player[whosTurn.toString()].backgroundColor;
       this.style.color=player[whosTurn.toString()].color;
-
       (whosTurn==="X")? whosTurn="O" : whosTurn="X" ;
 
       draw();
       winCheck();
       if(winner){
         result.innerHTML=winner+" win!";
+        button.style.display="initial";
       }
     }
   });
 }
-
+button.addEventListener("click", reset);
 reset();
