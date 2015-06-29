@@ -70,7 +70,7 @@ header h2{
   transform: translate(-50%,-50%);
   font-size: 50px;
 }
-.restartButton{
+button{
   /*display: none*/
   position: relative;
   z-index: 1000;

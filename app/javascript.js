@@ -2,31 +2,55 @@ var square= document.querySelectorAll(".square");
 var result= document.querySelector(".result");
 var teamX= document.querySelector(".teamX");
 var teamO= document.querySelector(".teamO");
-var button= document.querySelector(".restartButton");
+var rematchButton= document.querySelector(".rematchButton");
+var themeChangeButton= document.querySelector(".themeChangeButton");
 var vs= document.querySelector("header h2");
 
+var maxTheme=2;
 var themeNum=0;
 var theme={
   0:{
     title:"Batman VS Superman",
     X:{
       name:"BATMAN",
-      image: ["images/batman.png","images/batman_wins.png"],
+      image: ["images/00batman.png","images/00batman_wins.png"],
       string:"B",
       color:"rgba(200,200,200, 1)",
       backgroundColor:"rgba(0,0,0, 0.5)"
     },
     O:{
       name:"SUPERMAN",
-      image: ["images/superman.png","images/superman_wins.png"],
+      image: ["images/00superman.png","images/00superman_wins.png"],
       string:"S",
       color:"rgba(200,50,50, 1)",
       backgroundColor:"rgba(0,100,255, 0.5)"
     },
     background: {
-      image: "images/background.jpg",
+      image: "images/00background.jpg",
       height: 1137,
       width: 2048
+    }
+  },
+  1:{
+    title:"Android VS Iphone",
+    X:{
+      name:"ANDROID",
+      image: ["images/01android.png","images/01android_wins.png"],
+      string:"A",
+      color:"rgba(255,255,255, 1)",
+      backgroundColor:"rgba(150, 220, 10, 0.5)"
+    },
+    O:{
+      name:"IPHONE",
+      image: ["images/01iphone.png","images/01iphone_wins.png"],
+      string:"I",
+      color:"rgba(0,0,0, 1)",
+      backgroundColor:"rgba(255,255,255, 0.7)"
+    },
+    background: {
+      image: "images/01background.jpg",
+      height: 1080,
+      width: 1920
     }
   }
 };
@@ -34,6 +58,11 @@ var mouse={};
 var squareData;
 var whosTurn;
 var winner;
+
+function resetThemeChange(){
+  themeNum=(themeNum+1)%maxTheme;
+  reset();
+}
 
 function reset(){
   // reset background
@@ -62,10 +91,11 @@ function reset(){
   for(var i=0; i<square.length; i++){
     square[i].firstChild.innerHTML="";
     square[i].style.backgroundColor="";
-    square[i].style.color="black";
+    square[i].style.color="gray";
   }
-  // reset button & reseult
-  button.style.display="none";
+  // reset buttons & reseult div
+  rematchButton.style.display="none";
+  themeChangeButton.style.display="none";
   result.innerHTML="";
   result.style.color="red";
   result.style.fontSize="30px";
@@ -119,7 +149,8 @@ for(var i=0; i<square.length; i++){
       if(winner){
       result.style.color="black";
       result.style.fontSize="50px";
-      button.style.display="initial";
+      rematchButton.style.display="initial";
+      themeChangeButton.style.display="initial";
         if(winner=="X"){
           result.innerHTML=theme[themeNum][winner.toString()].name+" wins!";
           teamO.style.width="50%";
@@ -144,7 +175,7 @@ for(var i=0; i<square.length; i++){
     var i =Math.floor(this.num/3);
     var j =this.num%3;
     if(!squareData[i][j]&&!winner){
-      this.style.color="black";
+      this.style.color="gray";
       this.firstChild.innerHTML=theme[themeNum][whosTurn.toString()].string;
     }
   });
@@ -156,7 +187,8 @@ for(var i=0; i<square.length; i++){
     }
   });
 }
-button.addEventListener("click", reset);
+rematchButton.addEventListener("click", reset);
+themeChangeButton.addEventListener("click", resetThemeChange);
 document.addEventListener("mousemove",function(e){
   mouse.x=e.pageX;
   mouse.y=e.pageY;
